@@ -6,7 +6,7 @@ Mounted at /api/creator/ in creator_project/urls.py.
 
 from django.urls import path
 from creator import views
-from creator import api_content, api_instructors, api_categories, api_series
+from creator import api_content, api_instructors, api_categories, api_series, api_sessions
 
 urlpatterns = [
     # ── Dashboard ──
@@ -66,4 +66,16 @@ urlpatterns = [
     path('series/<uuid:series_id>/confirm-thumbnail/', api_series.series_confirm_thumbnail, name='creator-series-confirm-thumbnail'),
     path('series/<uuid:series_id>/publish/', api_series.series_publish, name='creator-series-publish'),
     path('series/<uuid:series_id>/unpublish/', api_series.series_unpublish, name='creator-series-unpublish'),
+
+    # ══════════════════════════════════════════════════════════════
+    # LIVE SESSIONS API
+    # ══════════════════════════════════════════════════════════════
+    path('sessions/', api_sessions.session_list, name='creator-session-list'),
+    path('sessions/create/', api_sessions.session_create, name='creator-session-create'),
+    path('sessions/<uuid:session_id>/', api_sessions.session_detail, name='creator-session-detail'),
+    path('sessions/<uuid:session_id>/update/', api_sessions.session_update, name='creator-session-update'),
+    path('sessions/<uuid:session_id>/delete/', api_sessions.session_delete, name='creator-session-delete'),
+    path('sessions/<uuid:session_id>/signup/', api_sessions.session_signup, name='creator-session-signup'),
+    path('sessions/<uuid:session_id>/cancel-signup/', api_sessions.session_cancel_signup, name='creator-session-cancel-signup'),
 ]
+

@@ -76,9 +76,8 @@ class CreatorUser(AbstractUser):
     deletion_scheduled_at = models.DateTimeField(null=True, blank=True)
     subscription_ends_at = models.DateTimeField(null=True, blank=True)
 
-    # Stripe Connect fields (creator payouts)
-    stripe_account_id = models.CharField(max_length=255, blank=True, null=True)
-    stripe_onboarding_complete = models.BooleanField(default=False)
+    # Note: Stripe Connect fields are managed via the payouts app's own table.
+    # Do NOT add stripe columns here — this table is managed=False.
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
