@@ -64,8 +64,11 @@ def instructor_list(request):
 
     instructors = qs.order_by('-is_featured', 'name')[offset:offset + limit]
 
+    serialized = [_serialize_instructor(e) for e in instructors]
+
     return Response({
-        'instructors': [_serialize_instructor(e) for e in instructors],
+        'instructors': serialized,
+        'experts': serialized,  # Alias for frontend compat
         'total': len(instructors),
     })
 
@@ -79,7 +82,8 @@ def instructor_detail(request, instructor_id):
     except Expert.DoesNotExist:
         return Response({'error': 'Instructor not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    return Response({'instructor': _serialize_instructor(instructor)})
+    serialized = _serialize_instructor(instructor)
+    return Response({'instructor': serialized, 'expert': serialized})
 
 
 @api_view(['POST'])

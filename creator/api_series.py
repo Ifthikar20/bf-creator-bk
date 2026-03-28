@@ -40,6 +40,8 @@ def _serialize_series(row):
             result[k] = v.isoformat()
         else:
             result[k] = v
+    # Computed field for frontend compat (frontend uses series.is_published)
+    result['is_published'] = result.get('status') == 'published'
     return result
 
 
@@ -68,8 +70,11 @@ def series_list(request):
         columns = [col[0] for col in cursor.description]
         rows = [dict(zip(columns, row)) for row in cursor.fetchall()]
 
+    serialized = [_serialize_series(r) for r in rows]
+
     return Response({
-        'series': [_serialize_series(r) for r in rows],
+        'series': serialized,
+        'results': serialized,  # Alias for ContentUploadView compat
         'total': len(rows),
     })
 

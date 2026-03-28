@@ -59,6 +59,12 @@ def educator_dashboard(request):
             'name': user.display_name or user.email,
             'email': user.email,
         },
+        # Flat keys for frontend DashboardView compatibility
+        'total_content': content_stats['total_content'],
+        'published_content': content_stats['published'],
+        'pending_review': content_stats['pending_review'],
+        'total_views': content_stats['total_views'],
+        # Detailed stats
         'content_stats': content_stats,
         'blog_stats': blog_stats,
         'top_content': top_content,
